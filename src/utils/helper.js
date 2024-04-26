@@ -8,7 +8,12 @@ function w(e) {
     "string" == typeof t && (t = ht.encode(t));
     for (var r = [], n = 0; n < t.length; n += 32768)
         r.push(String.fromCharCode.apply(null, t.subarray(n, n + 32768)));
-    return btoa(r.join(""))
+
+    try {
+        return btoa(r.join(""))
+    } catch (e) {
+        return Buffer.from(r.join('')).toString('base64');
+    }
 }
 
 function _(e) {

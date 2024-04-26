@@ -25,7 +25,11 @@ function encryptCardData(
         domain = "https://www.mytheresa.com";
     }
 
-    referrer = `https://checkoutshopper-live.adyen.com/checkoutshopper/securedfields/${stripeKey}/4.5.0/securedFields.html?type=card&d=${btoa(domain)}`;
+    try {
+        referrer = `https://checkoutshopper-live.adyen.com/checkoutshopper/securedfields/${stripeKey}/4.5.0/securedFields.html?type=card&d=${btoa(domain)}`;
+    } catch (e) {
+        referrer = `https://checkoutshopper-live.adyen.com/checkoutshopper/securedfields/${stripeKey}/4.5.0/securedFields.html?type=card&d=${Buffer.from(domain).toString('base64')}`;
+    }
 
     // Convert card from 4242424242424242 to 4242 4242 4242 4242
     const cardNumber = card.replace(/(.{4})/g, '$1 ').trim();
